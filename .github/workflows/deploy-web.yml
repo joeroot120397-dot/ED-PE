@@ -44,9 +44,15 @@ jobs:
       - name: Build
         run: |
           REPO_NAME="${GITHUB_REPOSITORY#*/}"
-          flutter build web --release --base-href "/${REPO_NAME}/"
+          flutter build web --release \
+            --no-web-resources-cdn \
+            --base-href "/${REPO_NAME}/"
 
+      # enablement turns Pages on for the repo on first run, so there is
+      # no manual settings step before the first deploy.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: build/web
