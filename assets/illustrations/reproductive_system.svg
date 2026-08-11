@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" role="img"
+     aria-label="Side-view schematic of the male reproductive and urinary
+     structures: bladder, prostate, seminal vesicle, vas deferens,
+     epididymis, testis, urethra and the corpora of the penis.">
+  <title>Male reproductive anatomy, side view</title>
+
+  <!-- Pelvic outline -->
+  <path d="M52 44 C40 110 44 180 74 232 C100 278 150 296 208 296"
+        fill="none" stroke="#DDE3ED" stroke-width="10" stroke-linecap="round" />
+
+  <!-- Bladder -->
+  <ellipse cx="122" cy="96" rx="46" ry="38" fill="#DBEAFE" stroke="#3B82F6"
+           stroke-width="2.5" />
+  <text x="122" y="100" text-anchor="middle" font-family="Inter, sans-serif"
+        font-size="11" fill="#1D4ED8">Bladder</text>
+
+  <!-- Seminal vesicle -->
+  <path d="M168 118 C192 108 206 118 208 132 C210 148 194 156 174 150
+           C162 146 158 128 168 118 Z"
+        fill="#FDE68A" stroke="#B45309" stroke-width="2" />
+
+  <!-- Prostate -->
+  <ellipse cx="130" cy="152" rx="28" ry="24" fill="#FBCFE8" stroke="#BE185D"
+           stroke-width="2.5" />
+
+  <!-- Urethra running through prostate and out along the penis -->
+  <path d="M126 128 C128 146 130 164 140 178 C160 200 210 206 260 206
+           C300 206 336 206 360 206"
+        fill="none" stroke="#F59E0B" stroke-width="5" stroke-linecap="round" />
+
+  <!-- Penile shaft: corpora cavernosa (paired) and spongiosum -->
+  <path d="M176 186 C230 178 300 178 366 180"
+        fill="none" stroke="#10B981" stroke-width="17" stroke-linecap="round"
+        stroke-opacity="0.85" />
+  <path d="M176 214 C230 222 300 222 366 220"
+        fill="none" stroke="#10B981" stroke-width="13" stroke-linecap="round"
+        stroke-opacity="0.55" />
+  <circle cx="372" cy="200" r="20" fill="#10B981" fill-opacity="0.4"
+          stroke="#047857" stroke-width="2" />
+
+  <!-- Vas deferens -->
+  <path d="M162 150 C186 168 196 208 190 246"
+        fill="none" stroke="#7C3AED" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Scrotum, testis, epididymis -->
+  <ellipse cx="196" cy="272" rx="34" ry="30" fill="#F1F5F9" stroke="#94A3B8"
+           stroke-width="2" />
+  <ellipse cx="192" cy="274" rx="22" ry="19" fill="#FECACA" stroke="#DC2626"
+           stroke-width="2" />
+  <path d="M210 258 C224 264 226 284 212 292"
+        fill="none" stroke="#7C3AED" stroke-width="4" stroke-linecap="round" />
+
+  <!-- Labels -->
+  <g font-family="Inter, sans-serif" font-size="11" fill="#0B1B2B">
+    <line x1="200" y1="128" x2="268" y2="104" stroke="#B45309"
+          stroke-width="1" />
+    <text x="272" y="102" fill="#B45309">Seminal vesicle</text>
+
+    <line x1="156" y1="152" x2="268" y2="146" stroke="#BE185D"
+          stroke-width="1" />
+    <text x="272" y="144" fill="#BE185D">Prostate</text>
+
+    <line x1="300" y1="206" x2="318" y2="252" stroke="#B45309"
+          stroke-width="1" />
+    <text x="300" y="266" fill="#B45309">Urethra</text>
+
+    <line x1="264" y1="182" x2="284" y2="150" stroke="#047857"
+          stroke-width="1" />
+    <text x="252" y="146" fill="#047857">Corpora cavernosa</text>
+
+    <line x1="188" y1="216" x2="120" y2="240" stroke="#7C3AED"
+          stroke-width="1" />
+    <text x="30" y="238" fill="#7C3AED">Vas deferens</text>
+
+    <line x1="176" y1="288" x2="120" y2="300" stroke="#DC2626"
+          stroke-width="1" />
+    <text x="46" y="304" fill="#DC2626">Testis</text>
+
+    <line x1="220" y1="286" x2="264" y2="300" stroke="#7C3AED"
+          stroke-width="1" />
+    <text x="268" y="304" fill="#7C3AED">Epididymis</text>
+  </g>
+</svg>

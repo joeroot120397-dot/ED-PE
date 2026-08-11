@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 320" role="img"
+     aria-label="Schematic view of the male pelvic floor muscles from below,
+     showing the levator ani sling, bulbospongiosus and ischiocavernosus.">
+  <title>Male pelvic floor, viewed from below</title>
+
+  <!-- Bony landmarks -->
+  <g fill="none" stroke="#94A3B8" stroke-width="3" stroke-linecap="round">
+    <path d="M200 34 C150 40 116 70 104 112 C94 150 100 196 122 232
+             C146 272 172 292 200 300" />
+    <path d="M200 34 C250 40 284 70 296 112 C306 150 300 196 278 232
+             C254 272 228 292 200 300" />
+  </g>
+  <text x="60" y="104" font-family="Inter, sans-serif" font-size="11"
+        fill="#94A3B8">Pubic bone</text>
+  <text x="300" y="286" font-family="Inter, sans-serif" font-size="11"
+        fill="#94A3B8">Coccyx</text>
+
+  <!-- Levator ani: the hammock -->
+  <path d="M126 128 C160 178 240 178 274 128 C286 172 278 226 244 258
+           C216 284 184 284 156 258 C122 226 114 172 126 128 Z"
+        fill="#10B981" fill-opacity="0.14" stroke="#10B981"
+        stroke-width="2.5" />
+  <g stroke="#10B981" stroke-width="1.4" stroke-opacity="0.55" fill="none">
+    <path d="M136 160 C168 196 232 196 264 160" />
+    <path d="M132 188 C166 224 234 224 268 188" />
+    <path d="M140 216 C170 246 230 246 260 216" />
+  </g>
+
+  <!-- Ischiocavernosus: paired, at the crura -->
+  <g fill="#047857" fill-opacity="0.85">
+    <path d="M150 104 C138 118 136 138 144 152 C152 142 158 124 158 108 Z" />
+    <path d="M250 104 C262 118 264 138 256 152 C248 142 242 124 242 108 Z" />
+  </g>
+
+  <!-- Bulbospongiosus: midline, around the bulb -->
+  <path d="M200 76 C182 92 176 118 182 142 C188 162 196 172 200 178
+           C204 172 212 162 218 142 C224 118 218 92 200 76 Z"
+        fill="#F59E0B" fill-opacity="0.75" stroke="#B45309"
+        stroke-width="1.5" />
+
+  <!-- Urethral and anal openings -->
+  <ellipse cx="200" cy="72" rx="7" ry="9" fill="#0B1B2B" />
+  <ellipse cx="200" cy="238" rx="12" ry="10" fill="#0B1B2B"
+           fill-opacity="0.85" />
+
+  <!-- Labels -->
+  <g font-family="Inter, sans-serif" font-size="12" fill="#0B1B2B">
+    <line x1="200" y1="60" x2="200" y2="20" stroke="#0B1B2B"
+          stroke-width="1" />
+    <text x="200" y="15" text-anchor="middle">Urethra</text>
+
+    <line x1="218" y1="110" x2="330" y2="88" stroke="#B45309"
+          stroke-width="1" />
+    <text x="334" y="86" fill="#B45309">Bulbospongiosus</text>
+    <text x="334" y="100" font-size="10" fill="#B45309">gates ejaculation</text>
+
+    <line x1="146" y1="130" x2="34" y2="150" stroke="#047857"
+          stroke-width="1" />
+    <text x="4" y="146" fill="#047857">Ischiocavernosus</text>
+    <text x="4" y="160" font-size="10" fill="#047857">drives rigidity</text>
+
+    <line x1="252" y1="212" x2="330" y2="210" stroke="#10B981"
+          stroke-width="1" />
+    <text x="334" y="208" fill="#059669">Levator ani</text>
+    <text x="334" y="222" font-size="10" fill="#059669">the supporting sling</text>
+
+    <text x="200" y="262" text-anchor="middle" font-size="10"
+          fill="#94A3B8">Anus</text>
+  </g>
+</svg>

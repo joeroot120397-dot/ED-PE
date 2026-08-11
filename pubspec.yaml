@@ -1,0 +1,59 @@
+name: vitalrise
+description: >-
+  VitalRise - an educational men's sexual wellness coach. Personalised pelvic
+  floor training, nutrition and lifestyle guidance. Not a medical device.
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.0
+  flutter: ">=3.44.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State management
+  flutter_riverpod: ^2.6.1
+
+  # Navigation
+  go_router: ^17.5.0
+
+  # Backend (auth, Postgres, storage, edge functions)
+  supabase_flutter: ^2.17.1
+
+  # Analytics / push
+  firebase_core: ^4.13.0
+  firebase_analytics: ^12.4.6
+  firebase_messaging: ^16.5.0
+
+  # Storage & security
+  shared_preferences: ^2.5.5
+  flutter_secure_storage: ^11.0.0
+  cryptography: ^2.9.0
+
+  # UI
+  fl_chart: ^1.2.0
+  lottie: ^3.5.1
+  flutter_svg: ^2.3.0
+  google_fonts: ^8.2.1
+
+  # Utilities
+  collection: ^1.19.1
+  intl: ^0.20.3
+  meta: ^1.18.0
+  uuid: ^4.6.0
+  package_info_plus: ^10.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  mocktail: ^1.0.5
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/data/
+    - assets/animations/
+    - assets/illustrations/

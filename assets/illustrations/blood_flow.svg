@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img"
+     aria-label="Diagram of the nitric oxide pathway: arousal signal,
+     endothelial nitric oxide release, smooth muscle relaxation, arterial
+     inflow and venous occlusion, and the lifestyle factors that damage
+     each step.">
+  <title>The blood-flow pathway behind an erection</title>
+
+  <g font-family="Inter, sans-serif">
+    <!-- Step 1 -->
+    <rect x="16" y="30" width="108" height="54" rx="12" fill="#0B1B2B" />
+    <text x="70" y="54" text-anchor="middle" font-size="12" fill="#FFFFFF"
+          font-weight="600">Arousal</text>
+    <text x="70" y="70" text-anchor="middle" font-size="10" fill="#94A3B8">
+      nerve signal
+    </text>
+
+    <!-- Step 2 -->
+    <rect x="146" y="30" width="108" height="54" rx="12" fill="#047857" />
+    <text x="200" y="54" text-anchor="middle" font-size="12" fill="#FFFFFF"
+          font-weight="600">Nitric oxide</text>
+    <text x="200" y="70" text-anchor="middle" font-size="10" fill="#A7F3D0">
+      from vessel lining
+    </text>
+
+    <!-- Step 3 -->
+    <rect x="276" y="30" width="108" height="54" rx="12" fill="#10B981" />
+    <text x="330" y="50" text-anchor="middle" font-size="12" fill="#052E20"
+          font-weight="600">Smooth muscle</text>
+    <text x="330" y="66" text-anchor="middle" font-size="10" fill="#052E20">
+      relaxes
+    </text>
+
+    <!-- Step 4 -->
+    <rect x="146" y="128" width="108" height="54" rx="12" fill="#DC2626" />
+    <text x="200" y="150" text-anchor="middle" font-size="12" fill="#FFFFFF"
+          font-weight="600">Arteries widen</text>
+    <text x="200" y="166" text-anchor="middle" font-size="10" fill="#FECACA">
+      inflow rises
+    </text>
+
+    <!-- Step 5 -->
+    <rect x="276" y="128" width="108" height="54" rx="12" fill="#1D4ED8" />
+    <text x="330" y="150" text-anchor="middle" font-size="12" fill="#FFFFFF"
+          font-weight="600">Veins pinch</text>
+    <text x="330" y="166" text-anchor="middle" font-size="10" fill="#BFDBFE">
+      blood is trapped
+    </text>
+
+    <!-- Result -->
+    <rect x="146" y="216" width="238" height="48" rx="12" fill="#D1FAE5"
+          stroke="#047857" stroke-width="2" />
+    <text x="265" y="238" text-anchor="middle" font-size="12" fill="#065F46"
+          font-weight="600">Rigid erection</text>
+    <text x="265" y="254" text-anchor="middle" font-size="10" fill="#047857">
+      pressure inside exceeds arterial pressure
+    </text>
+  </g>
+
+  <!-- Flow arrows. Heads are drawn as explicit polygons rather than SVG
+       <marker> elements, which the renderer does not support. -->
+  <g stroke="#10B981" stroke-width="2.5" fill="none">
+    <path d="M126 57 L138 57" />
+    <path d="M256 57 L268 57" />
+    <path d="M330 88 L330 120" />
+    <path d="M276 155 L264 155" />
+    <path d="M200 186 L200 208" />
+    <path d="M330 186 L330 208" />
+  </g>
+  <g fill="#10B981" stroke="none">
+    <polygon points="142,57 134,52 134,62" />
+    <polygon points="272,57 264,52 264,62" />
+    <polygon points="330,126 325,118 335,118" />
+    <polygon points="258,155 266,150 266,160" />
+    <polygon points="200,214 195,206 205,206" />
+    <polygon points="330,214 325,206 335,206" />
+  </g>
+
+  <!-- Damage callouts -->
+  <g font-family="Inter, sans-serif" font-size="10">
+    <rect x="16" y="122" width="108" height="142" rx="12" fill="#FEF2F2"
+          stroke="#FCA5A5" stroke-width="1.5" />
+    <text x="70" y="142" text-anchor="middle" font-size="11" fill="#B91C1C"
+          font-weight="600">What breaks it</text>
+    <text x="26" y="164" fill="#7F1D1D">Smoking</text>
+    <text x="26" y="182" fill="#7F1D1D">High blood pressure</text>
+    <text x="26" y="200" fill="#7F1D1D">High blood sugar</text>
+    <text x="26" y="218" fill="#7F1D1D">Visceral fat</text>
+    <text x="26" y="236" fill="#7F1D1D">Inactivity</text>
+    <text x="26" y="254" fill="#7F1D1D">Adrenaline</text>
+  </g>
+</svg>
