@@ -59,6 +59,12 @@ The `Deploy web build` action publishes to GitHub Pages. Enable it once:
 get `https://<user>.github.io/<repo>/`, which installs to the home screen
 like an app.
 
+Until Pages is enabled the workflow still builds the site and skips only
+the publish step, so the run stays green and the built site is attached to
+it as the `web-build` artifact. Enabling Pages needs a repository
+permission the workflow token does not have, which is why the build cannot
+do it for you.
+
 The web build is the same code, with two caveats: local encryption uses
 WebCrypto and IndexedDB rather than the platform keystore, and push
 notifications do not apply. Good for trying it; the APK is better for
