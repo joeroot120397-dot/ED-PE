@@ -64,14 +64,26 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          # A heredoc rather than an inline --notes string, so the notes can
+          # be edited as plain Markdown without every blank line and line
+          # break having to survive two levels of quoting.
+          cat > notes.md <<EOF
+          Offline build for sideloading. Debug-signed: fine for your own
+          device, not valid for the Play Store.
+
+          **Install:** open this page on your Android phone, download the
+          \`.apk\`, and allow installs from your browser when Android asks.
+
+          No account, no backend and no network needed - the assessment,
+          programme, exercises, nutrition and coach all run on-device.
+
+          Educational guidance only, not a substitute for medical advice.
+
+          Built from \`${GITHUB_SHA}\`.
+          EOF
+
           gh release delete latest-apk --yes --cleanup-tag 2>/dev/null || true
           gh release create latest-apk dist/*.apk \
             --title "VitalRise - latest test build" \
             --prerelease \
-            --notes "Offline build for sideloading. Debug-signed: fine for \
-          your own device, not for the Play Store.
-
-          **Install:** open this page on your Android phone, download the \
-          .apk, and allow installs from your browser when prompted.
-
-          Built from \`${GITHUB_SHA}\`."
+            --notes-file notes.md
