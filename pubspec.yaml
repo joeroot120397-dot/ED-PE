@@ -29,7 +29,11 @@ dependencies:
 
   # Storage & security
   shared_preferences: ^2.5.5
-  flutter_secure_storage: ^11.0.0
+  # Pinned below 11.x deliberately: 11.0.0 requires compileSdk 37, which
+  # the Android Gradle Plugin shipped with Flutter 3.44 does not support
+  # (it caps at 36). Bumping this breaks `flutter build apk` outright.
+  # Revisit when the Flutter template ships a newer AGP.
+  flutter_secure_storage: ^10.3.1
   cryptography: ^2.9.0
 
   # UI
