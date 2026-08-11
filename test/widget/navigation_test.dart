@@ -236,7 +236,7 @@ void main() {
       WidgetTester tester,
     ) async {
       final VitalRiseRepository repo = await _repository();
-      // Seed a completed assessment rather than tapping 28 questions.
+      // Seed a completed assessment rather than tapping 33 questions.
       await repo.saveAssessment(
         AnswerBuilder.severe(),
         AssessmentEngine.evaluate(AnswerBuilder.severe()),

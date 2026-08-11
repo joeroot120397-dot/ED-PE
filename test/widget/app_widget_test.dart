@@ -11,6 +11,7 @@ import 'package:vitalrise/core/security/crypto_box.dart';
 import 'package:vitalrise/core/storage/health_store.dart';
 import 'package:vitalrise/data/repositories/vitalrise_repository.dart';
 import 'package:vitalrise/features/anatomy/presentation/anatomy_screen.dart';
+import 'package:vitalrise/features/assessment/domain/question_bank.dart';
 import 'package:vitalrise/features/assessment/domain/scoring_engine.dart';
 import 'package:vitalrise/features/assessment/presentation/results_screen.dart';
 import 'package:vitalrise/features/dashboard/presentation/today_screen.dart';
@@ -92,6 +93,25 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('screens render', () {
+    testWidgets('onboarding states the real question count', (
+      WidgetTester tester,
+    ) async {
+      // This copy claimed 28 questions while the bank held 33. Deriving it
+      // fixed the drift; this pins it.
+      final VitalRiseRepository repo = await _repository();
+      await _pumpScreen(tester, const OnboardingScreen(), repo);
+
+      for (int i = 0; i < 4; i++) {
+        await tester.tap(find.text('Continue'));
+        await tester.pumpAndSettle();
+      }
+      await _expectVisible(
+        tester,
+        find.textContaining('${QuestionBank.count} questions'),
+      );
+      expect(find.textContaining('{questionCount}'), findsNothing);
+    });
+
     testWidgets('onboarding shows the first slide and can advance', (
       WidgetTester tester,
     ) async {

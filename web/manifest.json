@@ -1,0 +1,36 @@
+{
+    "name": "VitalRise",
+    "short_name": "VitalRise",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#0B1B2B",
+    "theme_color": "#0B1B2B",
+    "description": "Educational men's sexual wellness coach. Pelvic floor training, nutrition and lifestyle guidance. Not a substitute for medical advice.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "categories": ["health", "fitness", "education"],
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

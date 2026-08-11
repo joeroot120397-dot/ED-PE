@@ -232,7 +232,9 @@ class _DetailRow extends StatelessWidget {
                 children: <InlineSpan>[
                   TextSpan(
                     text: '$label: ',
-                    style: const TextStyle(fontWeight: FontWeight.w600),
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   TextSpan(text: value),
                 ],

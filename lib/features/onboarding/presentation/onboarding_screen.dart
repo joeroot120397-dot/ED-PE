@@ -8,6 +8,7 @@ import '../../../app/theme/app_theme.dart';
 import '../../../core/constants/disclaimers.dart';
 import '../../../core/widgets/common.dart';
 import '../../../core/widgets/vital_scaffold.dart';
+import '../../assessment/domain/question_bank.dart';
 
 @immutable
 class _Slide {
@@ -97,7 +98,7 @@ const List<_Slide> _slides = <_Slide>[
     eyebrow: 'Your turn',
     title: 'A short assessment, then a plan built for your causes',
     body:
-        'Twenty-eight questions about your body, symptoms, lifestyle, '
+        '{questionCount} questions about your body, symptoms, lifestyle, '
         'health history and state of mind. It takes about five minutes. '
         'Nothing is shared with anyone, and every answer stays encrypted on '
         'your device.',
@@ -271,7 +272,10 @@ class _SlideView extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.md),
           Text(
-            slide.body,
+            // Substituted rather than hard-coded: the intake grew from 28
+            // to 33 questions during development and this copy silently
+            // kept claiming the old number.
+            slide.body.replaceAll('{questionCount}', '${QuestionBank.count}'),
             style: theme.textTheme.bodyLarge?.copyWith(
               height: 1.55,
               color: AppColors.muted(context),

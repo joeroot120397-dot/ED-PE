@@ -60,8 +60,33 @@ class _AssessmentScreenState extends ConsumerState<AssessmentScreen> {
 
   AssessmentQuestion get _question => _questions[_index];
 
-  bool get _isAnswered =>
-      ref.read(assessmentDraftProvider)[_question.id] != null;
+  /// Whether the user can move on from the current question.
+  ///
+  /// Numeric questions (age, height, weight, waist) render a sensible
+  /// default on their slider, so the value on screen *is* an answer as far
+  /// as the user is concerned. Requiring them to nudge the slider to
+  /// confirm a number they can already see reads as a broken button - and
+  /// a 32-year-old on the default of 32 would have no way forward at all.
+  /// Scale questions are different: a 1-10 firmness rating has no
+  /// defensible default, so those still need a deliberate tap.
+  bool get _isAnswered {
+    if (ref.read(assessmentDraftProvider)[_question.id] != null) return true;
+    return _question.kind == AnswerKind.numeric &&
+        _question.numeric?.initial != null;
+  }
+
+  /// Writes the displayed default for a numeric question the user chose not
+  /// to adjust, so what was on screen is what gets scored.
+  void _commitShownDefault() {
+    final AssessmentQuestion q = _question;
+    if (q.kind != AnswerKind.numeric) return;
+    if (ref.read(assessmentDraftProvider)[q.id] != null) return;
+    final double? initial = q.numeric?.initial;
+    if (initial == null) return;
+    ref
+        .read(assessmentDraftProvider.notifier)
+        .answer(q.id, NumericAnswer(initial));
+  }
 
   void _goTo(int index) {
     if (index < 0 || index >= _questions.length) return;
@@ -74,6 +99,7 @@ class _AssessmentScreenState extends ConsumerState<AssessmentScreen> {
   }
 
   void _advance() {
+    _commitShownDefault();
     if (_index == _questions.length - 1) {
       _submit();
     } else {

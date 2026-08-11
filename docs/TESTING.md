@@ -133,7 +133,7 @@ Stated so nobody assumes otherwise:
   duplicates logic that *is* tested in Dart, but the duplication itself is
   untested — a divergence would not be caught automatically.
 - **The assessment UI end to end.** Navigation and screens are covered, but
-  no test taps through all 28 questions; the flow tests seed a completed
+  no test taps through all 33 questions; the flow tests seed a completed
   assessment instead. An `integration_test` driver walking the real intake
   would be the next addition.
 - **Golden/screenshot tests.** No pixel regression coverage. Worth adding

@@ -11,19 +11,60 @@ coach grounded in a reviewed content library.
 > does not diagnose, treat, cure or prescribe. Every screen carries the
 > disclaimer, and a test fails the build if one doesn't.
 
+<p align="center">
+  <img src="docs/screenshots/01-onboarding.png" width="24%" alt="Onboarding">
+  <img src="docs/screenshots/02-assessment.png" width="24%" alt="Assessment">
+  <img src="docs/screenshots/03-results.png" width="24%" alt="Results and root causes">
+  <img src="docs/screenshots/05-root-causes.png" width="24%" alt="Root cause breakdown">
+</p>
+
+*Real screenshots, captured by driving the running app in a browser at a
+390x844 phone viewport.*
+
 ---
 
 ## What's here
 
 | | |
 | --- | --- |
-| **Flutter app** | 55 Dart files. Onboarding, 28-question intake, scoring, 12-week programme, 22-exercise library with animations, nutrition engine, habit tracker, progress charts, AI coach, article library, anatomy section, settings. |
+| **Flutter app** | 55 Dart files. Onboarding, 33-question intake, scoring, 12-week programme, 22-exercise library with animations, nutrition engine, habit tracker, progress charts, AI coach, article library, anatomy section, settings. |
 | **Domain engines** | Assessment scoring, root-cause analysis, programme builder, nutrition targets and meal planning — all pure Dart, no Flutter, fully tested. |
 | **Backend** | Postgres schema, row-level security, two Edge Functions, cron jobs. |
 | **Assets** | 22 generated Lottie animations, 5 hand-authored anatomy SVGs. |
 | **Tests** | 197 tests: engines, safety triage, crypto, assets, screens, navigation, offline-first sync, accessibility. |
 
-## Quick start
+## Get it on your phone
+
+Two routes, neither of which needs a developer account or a Play Store
+listing. Both build the **offline variant**: no backend, no sign-in, no
+keys, fully functional on-device.
+
+### 1. Install the Android APK
+
+The `Build APK` GitHub Action produces an installable APK on every push and
+attaches it to a rolling pre-release.
+
+1. Repo → **Actions** → **Build APK** → **Run workflow** (or just push).
+2. When it finishes, open the repo's **Releases** page *on your phone*.
+3. Download `vitalrise-*.apk` and allow installs from your browser when
+   Android asks.
+
+It is signed with the standard Flutter debug key — fine for your own
+device, not valid for the Play Store.
+
+### 2. Open it in your phone's browser
+
+The `Deploy web build` action publishes to GitHub Pages. Enable it once:
+**Settings → Pages → Source: GitHub Actions**, then run the workflow. You
+get `https://<user>.github.io/<repo>/`, which installs to the home screen
+like an app.
+
+The web build is the same code, with two caveats: local encryption uses
+WebCrypto and IndexedDB rather than the platform keystore, and push
+notifications do not apply. Good for trying it; the APK is better for
+living with it.
+
+## Running from source
 
 ```bash
 flutter pub get
@@ -34,6 +75,9 @@ flutter run
 
 # With a backend:
 flutter run --dart-define-from-file=env/dev.json
+
+# Web, with CanvasKit served from your own origin rather than a Google CDN.
+flutter build web --release --no-web-resources-cdn
 ```
 
 There is no configuration to write before the app does something useful.

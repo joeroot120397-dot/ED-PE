@@ -1,0 +1,62 @@
+name: Deploy web build
+
+# Publishes the app to GitHub Pages so you can open it on any phone
+# browser without installing anything.
+#
+# The web build is a genuine build of the same code - same engines, same
+# screens, same offline storage. Two caveats worth knowing:
+#   * Encrypted local storage uses the browser's WebCrypto and IndexedDB
+#     rather than the platform keystore, which is weaker.
+#   * Push notifications do not apply.
+# Use it to try the app. Use the APK to actually live with it.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["claude/**", "main"]
+    paths-ignore: ["docs/**", "**/*.md"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.44.9"
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      # Pages serves the site from a subdirectory, so the base href has to
+      # match the repository name or every asset 404s.
+      - name: Build
+        run: |
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          flutter build web --release --base-href "/${REPO_NAME}/"
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

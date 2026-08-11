@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Replaced by the --base-href argument at build time. GitHub Pages
+       serves from a subdirectory, so this must match the repo name. -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description"
+        content="VitalRise - educational men's sexual wellness coach. Not a
+                 substitute for medical advice.">
+  <meta name="referrer" content="no-referrer">
+
+  <!-- Installable to a phone home screen -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="VitalRise">
+  <meta name="theme-color" content="#0B1B2B">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>VitalRise</title>
+  <link rel="manifest" href="manifest.json">
+
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; background: #0B1B2B; }
+    #boot {
+      position: fixed; inset: 0; display: flex; align-items: center;
+      justify-content: center; flex-direction: column; gap: 18px;
+      background: #0B1B2B; color: #94A3B8; z-index: 10;
+      font: 500 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI",
+            Roboto, sans-serif; text-align: center; padding: 24px;
+      transition: opacity .35s ease;
+    }
+    #boot .mark {
+      font-size: 22px; font-weight: 700; color: #10B981; letter-spacing: -.4px;
+    }
+    #boot .ring {
+      width: 34px; height: 34px; border-radius: 50%;
+      border: 3px solid rgba(148,163,184,.25); border-top-color: #10B981;
+      animation: spin 1s linear infinite;
+    }
+    #boot .fine { font-size: 11px; max-width: 30ch; color: #64748B; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <!-- Shown until the engine paints its first frame. Without it the user
+       stares at a blank screen for the couple of seconds the wasm bundle
+       takes to load on mobile data. -->
+  <div id="boot">
+    <div class="mark">VitalRise</div>
+    <div class="ring"></div>
+    <div class="fine">
+      This application provides educational guidance only and is not a
+      substitute for medical advice.
+    </div>
+  </div>
+
+  <script>
+    // Build with --no-web-resources-cdn so CanvasKit is served from this
+    // origin rather than gstatic.com. Two reasons, and the second matters
+    // more: the app then loads on a restricted network, and a men's sexual
+    // health app makes no unannounced request to a Google CDN on cold
+    // start. The privacy documentation says we do not phone third
+    // parties - that flag is what makes it true rather than nearly true.
+    //
+    // Remove the boot splash once the engine has painted.
+    window.addEventListener('flutter-first-frame', function () {
+      var boot = document.getElementById('boot');
+      if (!boot) return;
+      boot.style.opacity = '0';
+      setTimeout(function () { boot.remove(); }, 400);
+    });
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

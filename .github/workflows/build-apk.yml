@@ -1,0 +1,77 @@
+name: Build APK
+
+# Produces an installable Android APK you can sideload onto a phone.
+#
+# The build runs here rather than locally because GitHub's ubuntu runners
+# ship with the full Android SDK already installed - no sdkmanager, no
+# licence acceptance, nothing to configure.
+#
+# The APK is signed with the standard Flutter debug key. That is fine for
+# sideloading onto your own device and is *not* suitable for the Play
+# Store, which needs a real upload key (see docs/DEPLOYMENT.md).
+
+on:
+  workflow_dispatch: # "Run workflow" button in the Actions tab
+  push:
+    branches: ["claude/**", "main"]
+    paths-ignore: ["docs/**", "**/*.md"]
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    name: Release APK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.44.9"
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      # No --dart-define: this builds the offline variant, which is fully
+      # functional on-device and needs no backend, no account and no keys.
+      - name: Build universal APK
+        run: flutter build apk --release
+
+      - name: Rename with the version and commit
+        run: |
+          VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //' | tr '+' '-')
+          mkdir -p dist
+          cp build/app/outputs/flutter-apk/app-release.apk \
+             "dist/vitalrise-${VERSION}-${GITHUB_SHA::7}.apk"
+          ls -lh dist/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vitalrise-apk
+          path: dist/*.apk
+          retention-days: 30
+
+      # A release gives you a direct download link you can open on the
+      # phone itself, instead of unzipping a CI artifact on a desktop.
+      - name: Publish to a rolling pre-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete latest-apk --yes --cleanup-tag 2>/dev/null || true
+          gh release create latest-apk dist/*.apk \
+            --title "VitalRise - latest test build" \
+            --prerelease \
+            --notes "Offline build for sideloading. Debug-signed: fine for \
+          your own device, not for the Play Store.
+
+          **Install:** open this page on your Android phone, download the \
+          .apk, and allow installs from your browser when prompted.
+
+          Built from \`${GITHUB_SHA}\`."

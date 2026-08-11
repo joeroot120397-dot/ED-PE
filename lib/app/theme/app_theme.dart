@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'app_colors.dart';
 
@@ -27,6 +26,24 @@ abstract final class AppSpacing {
 /// settings screen so users can opt into stronger contrast and larger type
 /// without leaving the app.
 abstract final class AppTheme {
+  /// Inter, bundled in `assets/fonts` and declared in `pubspec.yaml`.
+  ///
+  /// It is bundled rather than fetched through `google_fonts` for three
+  /// reasons, in increasing order of importance:
+  ///
+  /// 1. First launch does not wait on a font download.
+  /// 2. The app claims to work offline. A runtime font fetch makes that
+  ///    false in a way nobody notices until they are on a train.
+  /// 3. On the web build the failure mode is total: CanvasKit has no system
+  ///    font to fall back on, so a blocked or slow fetch renders the entire
+  ///    app with **no text at all** - correct layout, correct colours, and
+  ///    not one readable word. That was the actual observed behaviour
+  ///    before this changed.
+  ///
+  /// There is also a privacy argument: a men's sexual health app should not
+  /// announce every cold start to a Google CDN.
+  static const String _fontFamily = 'Inter';
+
   static ThemeData light({bool highContrast = false}) =>
       _build(Brightness.light, highContrast);
 
@@ -55,18 +72,24 @@ abstract final class AppTheme {
         : (isDark ? AppColors.navySoft : AppColors.slate200);
 
     final TextTheme baseText =
-        GoogleFonts.interTextTheme(
-          isDark ? ThemeData.dark().textTheme : ThemeData.light().textTheme,
-        ).apply(
-          bodyColor: isDark ? AppColors.slate100 : AppColors.slate800,
-          displayColor: isDark ? AppColors.white : AppColors.navy,
-        );
+        (isDark ? ThemeData.dark().textTheme : ThemeData.light().textTheme)
+            .apply(
+              fontFamily: _fontFamily,
+              bodyColor: isDark ? AppColors.slate100 : AppColors.slate800,
+              displayColor: isDark ? AppColors.white : AppColors.navy,
+            );
 
     return ThemeData(
       useMaterial3: true,
       brightness: brightness,
       colorScheme: scheme,
       scaffoldBackgroundColor: scaffold,
+      // Set on ThemeData, not just on textTheme. Component themes build
+      // raw TextStyles that do not inherit from textTheme - the filled
+      // button's label is one - and on CanvasKit a style with no resolvable
+      // family renders as nothing at all. Every button in the app was
+      // shipping with an invisible label before this line existed.
+      fontFamily: _fontFamily,
       textTheme: baseText.copyWith(
         headlineMedium: baseText.headlineMedium?.copyWith(
           fontWeight: FontWeight.w700,
@@ -102,13 +125,22 @@ abstract final class AppTheme {
         ),
       ),
       dividerTheme: DividerThemeData(color: outline, space: 1, thickness: 1),
+      // dividerTheme only styles the Divider *widget*. Everything that
+      // reads `theme.dividerColor` directly - card borders, score-ring
+      // tracks, progress backgrounds - falls back to the seeded
+      // outlineVariant, which came out a muddy olive against this palette.
+      // Both have to be set.
+      dividerColor: outline,
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           minimumSize: const Size.fromHeight(52),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadii.md),
           ),
-          textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+          // Derived from the text theme rather than written fresh: a raw
+          // TextStyle here carries no font family, and on CanvasKit that
+          // renders the label as nothing at all.
+          textStyle: baseText.labelLarge?.copyWith(fontSize: 16),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
