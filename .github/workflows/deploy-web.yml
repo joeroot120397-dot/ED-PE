@@ -28,6 +28,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      pages_ready: ${{ steps.pages.outcome == 'success' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -48,17 +50,44 @@ jobs:
             --no-web-resources-cdn \
             --base-href "/${REPO_NAME}/"
 
-      # enablement turns Pages on for the repo on first run, so there is
-      # no manual settings step before the first deploy.
-      - uses: actions/configure-pages@v5
+      # Uploaded unconditionally: compiling for web is a real signal even
+      # when publishing is unavailable, and this keeps the built site
+      # downloadable from the run page either way.
+      - name: Upload the built site
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: build/web
+
+      # enablement turns Pages on for the repo, but only if the workflow
+      # token is allowed to administer Pages. On many repositories it is
+      # not - the API answers "Resource not accessible by integration" -
+      # and that is a repository setting, not something a build can fix.
+      # So this step is allowed to fail and the deploy is skipped rather
+      # than failing the whole run on every push forever.
+      - id: pages
+        uses: actions/configure-pages@v5
+        continue-on-error: true
         with:
           enablement: true
+
+      - name: Explain a skipped deploy
+        if: steps.pages.outcome != 'success'
+        run: |
+          echo "::warning title=Pages not enabled::The site built fine but \
+          could not be published. Enable it once under Settings -> Pages \
+          -> Build and deployment -> Source: GitHub Actions, then re-run \
+          this workflow. Until then, download the 'web-build' artifact \
+          from this run."
+
       - uses: actions/upload-pages-artifact@v3
+        if: steps.pages.outcome == 'success'
         with:
           path: build/web
 
   deploy:
     needs: build
+    if: needs.build.outputs.pages_ready == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
