@@ -31,7 +31,7 @@ coach grounded in a reviewed content library.
 | **Domain engines** | Assessment scoring, root-cause analysis, programme builder, nutrition targets and meal planning — all pure Dart, no Flutter, fully tested. |
 | **Backend** | Postgres schema, row-level security, two Edge Functions, cron jobs. |
 | **Assets** | 22 generated Lottie animations, 5 hand-authored anatomy SVGs. |
-| **Tests** | 197 tests: engines, safety triage, crypto, assets, screens, navigation, offline-first sync, accessibility. |
+| **Tests** | 198 tests: engines, safety triage, crypto, assets, screens, navigation, offline-first sync, accessibility. |
 
 ## Get it on your phone
 
