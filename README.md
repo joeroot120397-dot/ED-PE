@@ -21,7 +21,7 @@ coach grounded in a reviewed content library.
 | **Domain engines** | Assessment scoring, root-cause analysis, programme builder, nutrition targets and meal planning — all pure Dart, no Flutter, fully tested. |
 | **Backend** | Postgres schema, row-level security, two Edge Functions, cron jobs. |
 | **Assets** | 22 generated Lottie animations, 5 hand-authored anatomy SVGs. |
-| **Tests** | 163 tests: engines, safety triage, crypto, assets, widgets, accessibility. |
+| **Tests** | 197 tests: engines, safety triage, crypto, assets, screens, navigation, offline-first sync, accessibility. |
 
 ## Quick start
 
@@ -134,7 +134,7 @@ Details and threat model: [`docs/SECURITY_PRIVACY.md`](docs/SECURITY_PRIVACY.md)
 
 ```bash
 flutter analyze                       # zero issues expected
-flutter test                          # 163 tests
+flutter test                          # 197 tests
 flutter test --coverage
 dart format --line-length 80 lib test tool
 

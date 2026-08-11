@@ -1,7 +1,7 @@
 # Testing
 
 ```bash
-flutter test                     # 163 tests, ~7 seconds
+flutter test                     # 197 tests, ~10 seconds
 flutter test test/assessment     # one suite
 flutter test --coverage
 ```
@@ -13,10 +13,11 @@ flutter test --coverage
 | `test/assessment/` | 28 | Question bank integrity, score bounds and direction, root-cause analysis, clinical flags, serialisation |
 | `test/diet/` | 27 | Food database integrity, Mifflin-St Jeor, macro maths, meal generation for every pattern × goal |
 | `test/exercises/` | 23 | Exercise library integrity, animation metadata, 12-week programme structure |
-| `test/coach/` | 23 | Safety triage, BM25 retrieval, service orchestration, offline fallback |
-| `test/habits/` | 25 | DayKey arithmetic, streaks, badges, progress trends |
+| `test/coach/` | 24 | Safety triage, BM25 retrieval, service orchestration, offline fallback |
+| `test/habits/` | 34 | DayKey arithmetic, streaks, badges, progress trends, and the Riverpod controllers against a real encrypted store |
+| `test/widget/` | 29 | Screen rendering, the real router and navigation, disclaimer coverage, accessibility guidelines |
 | `test/core/` | 20 | AES-GCM crypto, asset existence and validity |
-| `test/widget/` | 16 | Screen rendering, disclaimer coverage, accessibility guidelines |
+| `test/data/` | 12 | Offline-first writes, sync-failure handling, persistence, deletion |
 
 `test/support/answer_builder.dart` provides the shared fixtures: a `healthy()`
 profile with no concerns anywhere and a `severe()` profile with the worst
@@ -64,7 +65,21 @@ which is exactly why it needs a test.
 **Accessibility.** Tap target sizes, semantic labels and text contrast run
 against Flutter's built-in guidelines. The contrast check caught a real
 failure: the mandated disclaimer footer was rendering at 2.56:1, well under
-WCAG AA, which was fixed by introducing a theme-aware muted colour.
+WCAG AA, fixed by introducing a theme-aware muted colour. Driving the app at
+a 1.4x text scale caught a second: `EmptyState` overflowed vertically, so
+the accessibility setting was breaking the layouts it exists to help.
+
+**Router integrity.** `flutter analyze` type-checks `router.dart`, but a
+duplicate path, a malformed `StatefulShellRoute` or a redirect loop only
+fails when the router is constructed and driven. `test/widget/navigation_test.dart`
+builds the real `VitalRiseApp`, walks every tab, follows every deep link,
+and checks the onboarding redirect in both directions.
+
+**The offline-first promise.** `test/data/` runs the repository against a
+backend that fails every single call, and asserts that local writes still
+succeed, local reads still work, and deletion still clears the device. That
+promise is load-bearing for the whole product and is easy to break with a
+stray `rethrow`.
 
 ## Widget test harness
 
@@ -109,16 +124,18 @@ fails loudly at the call site rather than silently scoring as unanswered.
 
 Stated so nobody assumes otherwise:
 
-- **Supabase integration.** `RemoteSync` is exercised only through
-  `NoopRemoteSync`. Testing the real client needs a live project; RLS
+- **Supabase integration.** `RemoteSync` is exercised through fakes only -
+  `NoopRemoteSync`, a failing double and a recording double. The real
+  Supabase client is never called. Testing it needs a live project; RLS
   behaviour should be verified with the SQL snippets in
   `supabase/README.md` after any policy change.
 - **Edge Functions.** No Deno test suite. The safety triage inside them
   duplicates logic that *is* tested in Dart, but the duplication itself is
   untested — a divergence would not be caught automatically.
-- **Full navigation flows.** Screens are tested individually. There is no
-  integration test walking onboarding → assessment → results → programme.
-  `integration_test` with a driver would be the next addition.
+- **The assessment UI end to end.** Navigation and screens are covered, but
+  no test taps through all 28 questions; the flow tests seed a completed
+  assessment instead. An `integration_test` driver walking the real intake
+  would be the next addition.
 - **Golden/screenshot tests.** No pixel regression coverage. Worth adding
   for the results screen and exercise detail, which are the most
   visually complex.

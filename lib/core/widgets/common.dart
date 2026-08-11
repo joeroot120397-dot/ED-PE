@@ -143,9 +143,15 @@ class EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    return Center(
+    // Scrollable rather than a bare Column: at a 1.4x accessibility text
+    // scale the content is taller than a phone viewport, and an empty
+    // state that overflows is a worse failure than one that scrolls.
+    return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.lg),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.xl,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
