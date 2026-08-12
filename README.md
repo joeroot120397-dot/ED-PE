@@ -52,6 +52,13 @@ attaches it to a rolling pre-release.
 It is signed with the standard Flutter debug key — fine for your own
 device, not valid for the Play Store.
 
+**Updating:** builds share one signing key, so a new APK installs straight
+over the old one and your assessment, streaks and logs survive. If Android
+ever says *"App not installed"* the key changed (see the `Build APK` log,
+which prints the fingerprint every run); uninstall first, and be aware that
+uninstalling erases the encrypted on-device data, since there is no export
+yet.
+
 ### 2. Open it in your phone's browser
 
 The `Deploy web build` action publishes to GitHub Pages. Enable it once:

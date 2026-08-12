@@ -6,9 +6,17 @@ name: Build APK
 # ship with the full Android SDK already installed - no sdkmanager, no
 # licence acceptance, nothing to configure.
 #
-# The APK is signed with the standard Flutter debug key. That is fine for
-# sideloading onto your own device and is *not* suitable for the Play
-# Store, which needs a real upload key (see docs/DEPLOYMENT.md).
+# The APK is debug-signed. That is fine for sideloading onto your own device
+# and is *not* suitable for the Play Store, which needs a real upload key
+# (see docs/DEPLOYMENT.md).
+#
+# The signing key is made stable on purpose. The Android Gradle Plugin
+# creates ~/.android/debug.keystore with a fresh random keypair whenever the
+# file is missing, and every CI runner starts empty - so each build was
+# signed by a different key. Android refuses to install an update signed by
+# a different key than the installed app, which forced an uninstall, and an
+# uninstall wipes the encrypted health data with it. Losing every
+# assessment on every update is not an acceptable way to ship updates.
 
 on:
   workflow_dispatch: # "Run workflow" button in the Actions tab
@@ -38,6 +46,49 @@ jobs:
           cache: true
 
       - run: flutter pub get
+
+      # Restored before the build so Gradle finds an existing keystore and
+      # does not mint a new one. A cache hit is what keeps consecutive builds
+      # installable over each other.
+      - name: Restore the signing key
+        uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: vitalrise-sideload-keystore-v1
+
+      - name: Settle the signing key
+        env:
+          KEYSTORE_B64: ${{ secrets.SIDELOAD_KEYSTORE_BASE64 }}
+        run: |
+          mkdir -p ~/.android
+          if [ -n "$KEYSTORE_B64" ]; then
+            printf '%s' "$KEYSTORE_B64" | base64 -d > ~/.android/debug.keystore
+            echo "::notice title=Signing::Using the key from the \
+          SIDELOAD_KEYSTORE_BASE64 secret."
+          elif [ -f ~/.android/debug.keystore ]; then
+            echo "::notice title=Signing::Reused the cached key, so this \
+          build installs over the previous one."
+          else
+            keytool -genkeypair -noprompt \
+              -keystore ~/.android/debug.keystore \
+              -storepass android -keypass android \
+              -alias androiddebugkey \
+              -dname "CN=Android Debug,O=Android,C=US" \
+              -keyalg RSA -keysize 2048 -validity 10000
+            echo "::warning title=New signing key::No cached or configured \
+          key, so a new one was generated. This build will NOT install over \
+          an existing copy - uninstall first, which erases its data. To make \
+          the key permanent, base64 this run's keystore into a repository \
+          secret named SIDELOAD_KEYSTORE_BASE64."
+          fi
+
+      # Printed every run so a key change is visible rather than discovered
+      # by a failed install on the phone.
+      - name: Report the signing fingerprint
+        run: |
+          keytool -list -v -keystore ~/.android/debug.keystore \
+            -storepass android 2>/dev/null \
+            | grep -E 'SHA256:' | head -1
 
       # No --dart-define: this builds the offline variant, which is fully
       # functional on-device and needs no backend, no account and no keys.
@@ -76,6 +127,10 @@ jobs:
 
           No account, no backend and no network needed - the assessment,
           programme, exercises, nutrition and coach all run on-device.
+
+          Installs over a previous build of the same signing key and keeps
+          your data. If Android says "App not installed", the key changed:
+          uninstall first, which erases what is stored on the device.
 
           Educational guidance only, not a substitute for medical advice.
 
