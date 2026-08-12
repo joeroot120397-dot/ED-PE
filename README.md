@@ -30,8 +30,8 @@ coach grounded in a reviewed content library.
 | **Flutter app** | 55 Dart files. Onboarding, 33-question intake, scoring, 12-week programme, 22-exercise library with animations, nutrition engine, habit tracker, progress charts, AI coach, article library, anatomy section, settings. |
 | **Domain engines** | Assessment scoring, root-cause analysis, programme builder, nutrition targets and meal planning — all pure Dart, no Flutter, fully tested. |
 | **Backend** | Postgres schema, row-level security, two Edge Functions, cron jobs. |
-| **Assets** | 22 generated Lottie animations, 5 hand-authored anatomy SVGs. |
-| **Tests** | 198 tests: engines, safety triage, crypto, assets, screens, navigation, offline-first sync, accessibility. |
+| **Assets** | 22 generated Lottie animations - a rigged human figure per exercise, plus a pelvic-floor cutaway for Kegels - and 5 hand-authored anatomy SVGs. |
+| **Tests** | 200 tests: engines, safety triage, crypto, assets, screens, navigation, offline-first sync, accessibility. |
 
 ## Get it on your phone
 

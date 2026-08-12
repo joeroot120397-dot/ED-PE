@@ -35,22 +35,68 @@ fields alone. A test asserts both are non-empty for every exercise.
 
 ## What ships today
 
-`tool/generate_animations.py` produces 22 schematic Lottie files, roughly
-4 KB each, from five parameterised motion designs:
+`tool/generate_animations.py` produces 22 Lottie files — a **rigged human
+figure** posed and keyframed per exercise, 12–24 KB each.
 
-| Design | Used for | What it shows |
-| --- | --- | --- |
-| `pelvic_ring` | Kegels, reverse Kegels | A ring contracting inward (or widening, for reverse) with a muscle-activation glow, timed to the actual prescription |
-| `hinge` | Bridges, thrusts, squats, lunges, planks | A body bar hinging up and down with a hip marker and ground line |
-| `travel` | Walking, jogging, cycling, swimming | A dot travelling a loop with a pulsing heart-rate ring |
-| `lengthen` | Hip opener, butterfly, hamstring, side plank, dead bug | A limb rotating open around a joint and holding |
-| `breath` | Box breathing, diaphragmatic, stress reset | A circle following the literal breath count, phase by phase |
+### The rig
 
-These are deliberately abstract rather than badly-drawn humans. They
-communicate **tempo, range and phase**, which is what a user actually needs
-to follow along, and they are honest about being diagrams. A 4 KB schematic
-that loops correctly beats a 3 MB character animation that is subtly wrong
-about the movement.
+`tool/human_rig.py` builds a forward-kinematics skeleton out of Lottie's
+own layer parenting. Lottie composes a child layer's transform with its
+parent's, which *is* a bone hierarchy: rotating the thigh carries the shin,
+the foot and everything below it. So a pose is fifteen joint angles, not a
+drawn frame, and a whole exercise stays kilobytes rather than the megabytes
+a rotoscoped or video demonstration would cost.
+
+Bones point from proximal joint to distal, resting straight down the
+screen, and angles are the direction the bone points, clockwise from down:
+
+```
+0 = down      90 = left      180 = up      -90 = right
+```
+
+Poses are authored in **world** angles and converted to parent-relative
+locals at emission. That is deliberate: "the thigh points up and to the
+right" can be pictured and checked against a photograph, while the same
+angle relative to an already-rotated parent cannot.
+
+Three things the rig handles that a naive version gets wrong:
+
+- **Ground contact.** The rig is rooted at the pelvis, so posing a squat by
+  dropping the root drops the feet through the floor with it. Grounded
+  movements derive the root from the pose via `grounded_origin`, placing the
+  pelvis so the lowest contact point rests on the floor.
+- **Draw order.** Lottie draws the *first* layer in the array on top, so
+  far-side limbs, the inset panel and the ground line are emitted last.
+  Getting this backwards puts the floor in front of the figure.
+- **Breathing** scales the chest across its width, not along its length.
+  Scaling the length telescopes the torso and reads as a shrug.
+
+### Why Kegels get more than a figure
+
+A pelvic floor contraction is **internal — nothing externally visible
+moves.** That is exactly why it is so commonly done wrong, and it means a
+body alone teaches nothing. The Kegel animations therefore carry four
+things at once:
+
+| Element | Teaches |
+| --- | --- |
+| Supine figure, knees bent, held still | The setup position, and that the body does *not* move |
+| Sagittal cutaway | The actual movement: the floor slung between pubic bone and tailbone lifting and drawing forward, the bladder riding up with it |
+| Ribcage that keeps moving throughout | Breathe normally — including through the hold |
+| Dashed amber rings on glutes and abdomen | The muscles that must stay soft |
+
+That last pair is the whole point. Glute, thigh and abdominal substitution
+and breath-holding are the failure modes named in every exercise's
+`commonMistakes`, so the animation marks the muscles that should *not* work
+as explicitly as the one that should. `reverse_kegel` runs the cutaway
+inverted — the floor drops and widens, a genuinely different movement
+rather than a weaker one.
+
+Two tests in `test/core/assets_test.dart` pin this: every animation must
+contain the named rig joints, and every pelvic-floor exercise must contain
+the cutaway layers. The library shipped once with abstract shapes — a
+pulsing ring for a Kegel, a hinging bar for a squat — and while they were
+legible, you cannot copy a form cue from a rectangle.
 
 The timings are the prescriptions. `kegel_long_hold` holds for 300 frames
 at 30 fps — a real ten-second hold, so a user can breathe along with it.
@@ -63,7 +109,9 @@ python3 tool/generate_animations.py
 ```
 
 The generator is committed so the assets are reproducible rather than
-mystery binaries.
+mystery binaries, and CI regenerates and diffs them: a hand-edited
+animation the generator would not produce is a drift bug, because the next
+regeneration would silently revert it.
 
 ## The player
 
@@ -101,7 +149,7 @@ satisfies:
 | --- | --- |
 | Format | Lottie JSON (Bodymovin export) |
 | Frame rate | 30 fps |
-| Canvas | 300 × 300, transparent background |
+| Canvas | Square or 16:10, transparent background (current files are 380×280 and 460×250) |
 | Loop | Seamless — first and last frame identical |
 | Duration | Match the prescribed tempo, not an arbitrary length |
 | Size | Under 200 KB per file (enforced by test) |

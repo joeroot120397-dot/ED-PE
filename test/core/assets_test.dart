@@ -65,6 +65,59 @@ void main() {
       }
     });
 
+    // The library shipped once with abstract shapes - a pulsing ring for a
+    // Kegel, a hinging bar for a squat. They were legible but unteachable:
+    // you cannot copy a form cue from a rectangle. These two tests pin the
+    // figure and the cutaway so a regression to shapes fails loudly.
+    List<String> layerNames(Exercise e) {
+      final Map<String, dynamic> json =
+          jsonDecode(File(e.animation.asset).readAsStringSync())
+              as Map<String, dynamic>;
+      return <String>[
+        for (final dynamic l in json['layers'] as List<dynamic>)
+          (l as Map<String, dynamic>)['nm'] as String,
+      ];
+    }
+
+    test('every animation is built from the rigged human figure', () {
+      // Named joints, not a layer count: a file could hit any count with
+      // fifteen rectangles.
+      const List<String> required = <String>[
+        'head',
+        'chest',
+        'abdomen',
+        'pelvis',
+        'thighNear',
+        'shinNear',
+        'footNear',
+        'armUpperNear',
+      ];
+      for (final Exercise e in ExerciseLibrary.all) {
+        final List<String> names = layerNames(e);
+        for (final String joint in required) {
+          expect(names, contains(joint), reason: '${e.id} is missing $joint');
+        }
+      }
+    });
+
+    test('pelvic floor work shows the internal movement it cannot show on '
+        'the body', () {
+      // A Kegel is invisible from outside, so the body alone teaches nothing.
+      // Every pelvic-floor exercise must carry the sagittal cutaway.
+      final Iterable<Exercise> pelvic = ExerciseLibrary.all.where(
+        (Exercise e) =>
+            e.category == ExerciseCategory.kegel ||
+            e.category == ExerciseCategory.reverseKegel,
+      );
+      expect(pelvic, isNotEmpty);
+      for (final Exercise e in pelvic) {
+        final List<String> names = layerNames(e);
+        expect(names, contains('pelvic floor'), reason: e.id);
+        expect(names, contains('bladder'), reason: e.id);
+        expect(names, contains('lift direction'), reason: e.id);
+      }
+    });
+
     test('animation files stay small enough to bundle', () {
       for (final Exercise e in ExerciseLibrary.all) {
         final int bytes = File(e.animation.asset).lengthSync();
