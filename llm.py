@@ -61,7 +61,7 @@ Five analysts argue one stock, then a Judge rules.
 House rules:
 - A BUY needs genuinely favourable risk/reward WITH confirmation - momentum and
   volume must agree. Promising but unconfirmed is a WATCH. Poor risk/reward is
-  an AVOID. Most stocks are not BUYs.
+  an AVOID.
 - Every number you cite must appear in the evidence bundle you are given.
   Never invent, estimate or recall a figure from memory. If a value you need is
   missing, write exactly "data unavailable".
@@ -267,7 +267,12 @@ def _evidence_numbers(evidence) -> set:
     return found
 
 
-NUMBER_RE = re.compile(r"-?\d[\d,]*\.?\d*")
+# Pulling numbers out of prose is fiddlier than it looks:
+#   - a hyphen only means "minus" when it doesn't follow a word character,
+#     so "380-700" is a range and "SMA-20" is a name, not -700 and -20
+#   - thousands separators are only real between digits, so a trailing
+#     comma in "RVOL 3.1, up 20, strong" is punctuation, not part of 20
+NUMBER_RE = re.compile(r"(?<![\w.,])-?\d+(?:,\d{3})*(?:\.\d+)?")
 
 # "52-week high" is a phrase, not a figure the model is claiming.
 PHRASE_RE = re.compile(r"\b52[\s-]*(?:week|wk|w)\b", re.IGNORECASE)
@@ -297,6 +302,12 @@ def verify_output(parsed: dict, evidence: dict) -> list:
     for seat in ("bull", "bear", "fundamentalist", "technician", "newsdesk"):
         block = parsed.get(seat) or {}
         texts.append((seat, str(block.get("point") or "")))
+        # A Judge writing "Bull case leads 78-68" is quoting the panel's own
+        # conviction scores, not claiming a figure about the stock.
+        try:
+            allowed.add(float(block.get("score")))
+        except (TypeError, ValueError):
+            pass
     judge = parsed.get("judge") or {}
     texts.append(("judge", str(judge.get("rationale") or "")))
     texts.append(("judge", str(judge.get("key_catalyst") or "")))

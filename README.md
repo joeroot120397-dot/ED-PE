@@ -154,9 +154,24 @@ that can't be traced back to the bundle. Flagged verdicts still appear — with 
 warning on the row and the flags stored in SQLite — so a hallucinated number is
 visible rather than silent.
 
-The verifier allows honest rounding (a bundle's `-42.12` may be cited as "42%")
-and ignores the seats' own scores and the phrase "52-week", which are not
-claims about the stock.
+The verifier is tuned to avoid crying wolf. It allows honest rounding (a
+bundle's `-42.12` may be cited as "42%"), reads `380-700` as a range rather
+than as `-700`, and ignores three things that aren't claims about the stock:
+the phrase "52-week", the `X/10` confidence, and the panel's own conviction
+scores (a Judge writing "Bull case leads 78-68" is quoting the debate).
+
+It earns its keep. On a real run it caught the model citing an `11.2%`
+downside for RELIANCE — a figure that appears nowhere in that stock's bundle,
+though it is PERSISTENT's window return.
+
+**It is deliberately literal, and that has a cost.** A figure the model
+*derived* correctly from two evidence numbers — "15.3% downside to the
+52-week low", say — is also flagged, because 15.3 is not itself in the
+bundle. Widening the check to accept derived ratios would mean admitting
+every pairwise combination of ~40 numbers, which would make almost any
+two-digit figure "traceable" and would have let the RELIANCE hallucination
+through. A flag is a prompt to look, not a verdict: hover the row to see
+exactly which figures tripped it.
 
 ---
 

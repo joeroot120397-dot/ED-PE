@@ -263,7 +263,9 @@
 
     $("feed").innerHTML = verdicts.slice().reverse().map(function (v) {
       var flags = (v.grounding_flags && v.grounding_flags.length)
-        ? '<div class="flagged">⚠ ' + v.grounding_flags.length + ' figure(s) not traceable to the evidence</div>' : "";
+        ? '<div class="flagged" title="' + esc(v.grounding_flags.join("\n")) + '">⚠ ' +
+          v.grounding_flags.length + ' figure(s) not found in the evidence — hover to see them</div>'
+        : "";
       return '' +
         '<div class="row">' +
           '<div><div class="sym">' + esc(v.symbol) + '</div><div class="cap">' + esc(v.cap_segment) + ' cap</div></div>' +
