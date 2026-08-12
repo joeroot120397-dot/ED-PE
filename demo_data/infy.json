@@ -1,0 +1,60 @@
+{
+  "symbol": "INFY",
+  "name": "Infosys Ltd",
+  "cap_segment": "large",
+  "sector": "Technology",
+  "currency": "INR",
+  "as_of": "demo snapshot",
+  "source": "demo bundle (snapshot of a real NSE session)",
+  "price": {
+    "live": 1543.8,
+    "day_open": 1558.0,
+    "day_high": 1561.4,
+    "day_low": 1536.2,
+    "prev_close": 1561.2,
+    "day_change_pct": -1.11,
+    "volume": 9214880
+  },
+  "range_52w": {
+    "high": 2006.45,
+    "low": 1307.0,
+    "pct_from_high": -23.06,
+    "position_pct": 33.9
+  },
+  "technicals": {
+    "rvol": 1.2,
+    "price_vs_sma_pct": -2.4,
+    "sma_window": 20,
+    "sma_slope_pct": -0.9,
+    "window_return_pct": -3.1,
+    "swing_high": 1618.7,
+    "swing_low": 1521.05,
+    "day_range_position_pct": 30.2,
+    "trend": "down"
+  },
+  "analyst": {
+    "consensus": "hold",
+    "num_analysts": 41,
+    "buy_pct": 58.5,
+    "hold_pct": 31.7,
+    "sell_pct": 9.8,
+    "target_mean": 1720.0,
+    "target_low": 1330.0,
+    "target_high": 2100.0,
+    "upside_pct": 11.41
+  },
+  "news": {
+    "total": 5,
+    "positive": 2,
+    "negative": 2,
+    "neutral": 1,
+    "net_tone": 0,
+    "recent": [
+      {"title": "Infosys wins multi-year deal with European bank", "publisher": "Economic Times", "published": "demo", "sentiment": "positive"},
+      {"title": "Large deal pipeline expands, management says", "publisher": "Mint", "published": "demo", "sentiment": "positive"},
+      {"title": "IT sector faces pressure as discretionary spend stays weak", "publisher": "Reuters", "published": "demo", "sentiment": "negative"},
+      {"title": "Analysts cut FY estimates on delayed ramp-ups", "publisher": "Business Standard", "published": "demo", "sentiment": "negative"},
+      {"title": "Infosys to announce results later this month", "publisher": "Moneycontrol", "published": "demo", "sentiment": "neutral"}
+    ]
+  }
+}

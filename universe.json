@@ -1,0 +1,39 @@
+{
+  "_comment": "Editable NSE universe. Symbols are plain NSE codes; the .NS suffix is added automatically for yfinance.",
+  "large": [
+    "RELIANCE",
+    "HDFCBANK",
+    "INFY",
+    "TCS",
+    "ICICIBANK",
+    "LT",
+    "BHARTIARTL",
+    "TATAMOTORS",
+    "AXISBANK",
+    "SUNPHARMA"
+  ],
+  "mid": [
+    "PERSISTENT",
+    "POLYCAB",
+    "COFORGE",
+    "DIXON",
+    "CUMMINSIND",
+    "AUROPHARMA",
+    "FEDERALBNK",
+    "MPHASIS",
+    "ASTRAL",
+    "VOLTAS"
+  ],
+  "small": [
+    "KIRLOSENG",
+    "ANANDRATHI",
+    "CAMPUS",
+    "JBMA",
+    "RATNAMANI",
+    "TRIVENI",
+    "GRANULES",
+    "NEWGEN",
+    "GRAVITA",
+    "CEATLTD"
+  ]
+}

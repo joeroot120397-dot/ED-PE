@@ -1,0 +1,60 @@
+{
+  "symbol": "RELIANCE",
+  "name": "Reliance Industries Ltd",
+  "cap_segment": "large",
+  "sector": "Energy",
+  "currency": "INR",
+  "as_of": "demo snapshot",
+  "source": "demo bundle (snapshot of a real NSE session)",
+  "price": {
+    "live": 1520.4,
+    "day_open": 1483.0,
+    "day_high": 1526.8,
+    "day_low": 1479.5,
+    "prev_close": 1478.2,
+    "day_change_pct": 2.85,
+    "volume": 18426730
+  },
+  "range_52w": {
+    "high": 1608.8,
+    "low": 1114.85,
+    "pct_from_high": -5.5,
+    "position_pct": 82.1
+  },
+  "technicals": {
+    "rvol": 2.4,
+    "price_vs_sma_pct": 4.8,
+    "sma_window": 20,
+    "sma_slope_pct": 2.1,
+    "window_return_pct": 6.9,
+    "swing_high": 1526.8,
+    "swing_low": 1402.35,
+    "day_range_position_pct": 86.5,
+    "trend": "up"
+  },
+  "analyst": {
+    "consensus": "buy",
+    "num_analysts": 34,
+    "buy_pct": 82.4,
+    "hold_pct": 14.7,
+    "sell_pct": 2.9,
+    "target_mean": 1712.0,
+    "target_low": 1350.0,
+    "target_high": 1900.0,
+    "upside_pct": 12.6
+  },
+  "news": {
+    "total": 5,
+    "positive": 3,
+    "negative": 0,
+    "neutral": 2,
+    "net_tone": 3,
+    "recent": [
+      {"title": "Reliance Retail gains as festive quarter revenue tops estimates", "publisher": "Business Standard", "published": "demo", "sentiment": "positive"},
+      {"title": "Jio subscriber additions surge after tariff revision", "publisher": "Mint", "published": "demo", "sentiment": "positive"},
+      {"title": "Brokerages raise Reliance target on new energy expansion", "publisher": "Economic Times", "published": "demo", "sentiment": "positive"},
+      {"title": "Reliance board meeting scheduled for next week", "publisher": "Moneycontrol", "published": "demo", "sentiment": "neutral"},
+      {"title": "Index rebalancing to take effect this month", "publisher": "Reuters", "published": "demo", "sentiment": "neutral"}
+    ]
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "symbol": "POLYCAB",
+  "name": "Polycab India Ltd",
+  "cap_segment": "mid",
+  "sector": "Industrials",
+  "currency": "INR",
+  "as_of": "demo snapshot",
+  "source": "demo bundle (snapshot of a real NSE session)",
+  "price": {
+    "live": 6120.0,
+    "day_open": 6018.5,
+    "day_high": 6142.0,
+    "day_low": 6001.0,
+    "prev_close": 6005.0,
+    "day_change_pct": 1.92,
+    "volume": 742180
+  },
+  "range_52w": {
+    "high": 7605.0,
+    "low": 4555.0,
+    "pct_from_high": -19.53,
+    "position_pct": 51.3
+  },
+  "technicals": {
+    "rvol": 1.9,
+    "price_vs_sma_pct": 2.6,
+    "sma_window": 20,
+    "sma_slope_pct": 0.9,
+    "window_return_pct": 3.4,
+    "swing_high": 6288.0,
+    "swing_low": 5744.5,
+    "day_range_position_pct": 84.4,
+    "trend": "up"
+  },
+  "analyst": {
+    "consensus": "buy",
+    "num_analysts": 18,
+    "buy_pct": 66.7,
+    "hold_pct": 27.8,
+    "sell_pct": 5.5,
+    "target_mean": 7180.0,
+    "target_low": 5400.0,
+    "target_high": 8500.0,
+    "upside_pct": 17.32
+  },
+  "news": {
+    "total": 3,
+    "positive": 1,
+    "negative": 0,
+    "neutral": 2,
+    "net_tone": 1,
+    "recent": [
+      {"title": "Polycab wins large distribution order from state utility", "publisher": "Economic Times", "published": "demo", "sentiment": "positive"},
+      {"title": "Cable and wire capacity expansion on track", "publisher": "Business Standard", "published": "demo", "sentiment": "neutral"},
+      {"title": "Company files quarterly shareholding pattern", "publisher": "NSE", "published": "demo", "sentiment": "neutral"}
+    ]
+  }
+}

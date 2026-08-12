@@ -1,0 +1,59 @@
+{
+  "symbol": "PERSISTENT",
+  "name": "Persistent Systems Ltd",
+  "cap_segment": "mid",
+  "sector": "Technology",
+  "currency": "INR",
+  "as_of": "demo snapshot",
+  "source": "demo bundle (snapshot of a real NSE session)",
+  "price": {
+    "live": 5480.5,
+    "day_open": 5301.0,
+    "day_high": 5498.0,
+    "day_low": 5290.4,
+    "prev_close": 5289.0,
+    "day_change_pct": 3.62,
+    "volume": 1642300
+  },
+  "range_52w": {
+    "high": 5568.0,
+    "low": 3266.0,
+    "pct_from_high": -1.57,
+    "position_pct": 96.2
+  },
+  "technicals": {
+    "rvol": 3.1,
+    "price_vs_sma_pct": 7.4,
+    "sma_window": 20,
+    "sma_slope_pct": 3.3,
+    "window_return_pct": 11.2,
+    "swing_high": 5498.0,
+    "swing_low": 4880.6,
+    "day_range_position_pct": 91.6,
+    "trend": "up"
+  },
+  "analyst": {
+    "consensus": "buy",
+    "num_analysts": 21,
+    "buy_pct": 71.4,
+    "hold_pct": 23.8,
+    "sell_pct": 4.8,
+    "target_mean": 5940.0,
+    "target_low": 4400.0,
+    "target_high": 7000.0,
+    "upside_pct": 8.39
+  },
+  "news": {
+    "total": 4,
+    "positive": 1,
+    "negative": 1,
+    "neutral": 2,
+    "net_tone": 0,
+    "recent": [
+      {"title": "Persistent Systems wins large healthcare platform deal", "publisher": "Economic Times", "published": "demo", "sentiment": "positive"},
+      {"title": "Valuation concerns flagged after sharp rally", "publisher": "Mint", "published": "demo", "sentiment": "negative"},
+      {"title": "Company to host investor day next month", "publisher": "Moneycontrol", "published": "demo", "sentiment": "neutral"},
+      {"title": "Midcap IT names see index inflows", "publisher": "Business Standard", "published": "demo", "sentiment": "neutral"}
+    ]
+  }
+}
