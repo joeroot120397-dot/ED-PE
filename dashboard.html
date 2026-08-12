@@ -76,6 +76,7 @@
   .section-head{display:flex;align-items:baseline;justify-content:space-between;margin:0 2px 14px}
   .section-head h2{font-size:14px;font-weight:650;margin:0;letter-spacing:-.005em}
   .section-head span{font-size:12.5px;color:var(--faint)}
+  .section-head span.warn{color:var(--avoid);font-weight:600;cursor:help}
 
   /* ---------- agents ---------- */
   .agents{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:30px}
@@ -267,7 +268,9 @@
         '<div class="row">' +
           '<div><div class="sym">' + esc(v.symbol) + '</div><div class="cap">' + esc(v.cap_segment) + ' cap</div></div>' +
           '<div><span class="badge ' + esc(v.verdict) + '">' + esc(v.verdict) + '</span>' +
-               '<div class="conf">' + esc(v.confidence) + '/10' + (v.fired ? " · sent" : "") + '</div></div>' +
+               // "signal", not "sent": the row records that the stock cleared the
+               // threshold. Whether Telegram accepted it is the Messenger's story.
+               '<div class="conf">' + esc(v.confidence) + '/10' + (v.fired ? " · signal" : "") + '</div></div>' +
           '<div><div class="why">' + esc(v.rationale) + '</div>' + flags + '</div>' +
           '<div class="px"><div class="p">' + money(v.price) + '</div><div class="c">' + change(v.day_change_pct) + '</div></div>' +
         '</div>';
@@ -301,8 +304,13 @@
       ? done + " of " + s.agents.length + " finished"
       : (s.finished_at ? "all agents stood down" : "idle");
 
-    $("engine-note").textContent = "engine: " + s.engine +
-      (s.telegram.configured ? " · telegram ready" : " · telegram not configured");
+    var tg = s.telegram.error
+      ? " · telegram failed"
+      : (s.telegram.configured ? " · telegram ready" : " · telegram not configured");
+    var note = $("engine-note");
+    note.textContent = "engine: " + s.engine + tg;
+    note.className = s.telegram.error ? "warn" : "";
+    note.title = s.telegram.error || "";
 
     renderAgents(s.agents);
     renderFeed(s.verdicts);
