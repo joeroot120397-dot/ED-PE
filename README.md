@@ -146,6 +146,15 @@ The Judge takes `net = bull − bear`:
 Confidence is `clamp(round(4 + net/15), 1, 10)`, forced to ≥ 7 for a BUY and
 ≤ 6 for anything else.
 
+**The two engines mean different things by "confidence."** The deterministic
+Judge derives it from the net score, so it is pinned to the verdict by that
+forcing rule. The LLM panel states its own conviction and it passes through
+untouched — which is why you will see a WATCH at 8/10 (the panel is *sure* it
+is a WATCH) sitting next to one at 6. Pinning the model's number the same way
+collapsed almost every non-BUY row to exactly 6 and threw the information
+away. Firing is unaffected either way: a signal needs verdict BUY **and**
+confidence at or above `CONFIDENCE_THRESHOLD`.
+
 ### The grounding rule
 
 Every figure an agent cites must exist in the evidence bundle. `llm.py` ships a

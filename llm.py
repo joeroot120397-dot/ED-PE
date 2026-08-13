@@ -357,8 +357,15 @@ def _shape(parsed: dict, evidence: dict, engine: str) -> dict:
     if winner not in ("Bull", "Bear"):
         winner = "Bull" if bull_score >= bear_score else "Bear"
 
+    # The panel's own 1-10 confidence passes through as given. The
+    # >=7-for-BUY / <=6-otherwise forcing belongs to the deterministic Judge,
+    # where confidence is derived from the net score and needs pinning to the
+    # verdict. Applying it here flattened almost every non-BUY row to exactly
+    # 6 and threw away the model's actual conviction - a confident AVOID at 8
+    # became indistinguishable from a marginal one at 6. Signal firing is
+    # unaffected: a stock still needs verdict BUY *and* confidence at or above
+    # CONFIDENCE_THRESHOLD.
     confidence = _clamp(judge.get("confidence"), 1, 10, 5)
-    confidence = max(confidence, 7) if verdict == "BUY" else min(confidence, 6)
 
     return {
         "scores": scores,
